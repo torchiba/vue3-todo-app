@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-// やることをまずコメントに箇条書きで書く
-// 入力欄にタスクを入力してエンター押したらタスクとして登録
 let id:number = 0;
-const newTodo = ref('')
-const todos = ref([]) // 配列ではなく、
-// 登録したタスクがリスト表示される
-// タスク横にボタンがあって、押したらタスクが削除
+const newTodo = ref<string>('')
+const todos = ref<Todo[]>([])
+type Todo = {
+  id: number;
+  text: string;
+}
 const addTodo = () => {
   if (newTodo.value.trim() === '') return
   todos.value.push({ id: id++, text: newTodo.value })
   newTodo.value = ""
 }
-// 配列id番目を消す
 const removeTodo = (id:number) => {
   todos.value = todos.value.filter((todo) => todo.id !== id)
 }
