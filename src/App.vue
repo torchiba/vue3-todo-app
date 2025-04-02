@@ -1,47 +1,34 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from 'vue';
+// やることをまずコメントに箇条書きで書く
+// 入力欄にタスクを入力してエンター押したらタスクとして登録
+let id:number = 0;
+const newTodo = ref('')
+const todos = ref([]) // 配列ではなく、
+// 登録したタスクがリスト表示される
+// タスク横にボタンがあって、押したらタスクが削除
+const addTodo = () => {
+  if (newTodo.value.trim() === '') return
+  todos.value.push({ id: id++, text: newTodo.value })
+  newTodo.value = ""
+}
+// 配列id番目を消す
+const removeTodo = (id:number) => {
+  todos.value = todos.value.filter((todo) => todo.id !== id)
+}
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <form @submit.prevent="addTodo">
+        <input type="text" v-model="newTodo"/>
+        <button>送信</button>
+      </form>
     </div>
+    <p v-for="todo in todos" :key="todo.id">{{ todo.text }} <button @click="removeTodo(todo.id)">X</button></p>
   </header>
 
   <main>
-    <TheWelcome />
   </main>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
