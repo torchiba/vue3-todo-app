@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useTodoStore } from '@/stores/todo';
+import TodoItem from './components/TodoItem.vue';
 
 const store = useTodoStore();
 const newTodo = ref('')
@@ -8,6 +9,9 @@ const newTodo = ref('')
 const addNewTodo = () => {
   store.addTodo(newTodo.value)
   newTodo.value = ''
+}
+const removeTodo = (id: number) => {
+  store.removeTodo(id)
 }
 </script>
 
@@ -23,12 +27,12 @@ const addNewTodo = () => {
 
   <main>
     <p>合計：{{store.todos.length}}件 ｜ 未完了: {{ store.remainingCount }}件</p>
-    <p v-for="todo in store.todos" :key="todo.id"><input type="checkbox" :id="'todo-' + todo.id" name="done" v-model="todo.done"/><label :for="'todo-' + todo.id" :class="{ checked: todo.done }">{{ todo.text }}</label><button @click="store.removeTodo(todo.id)">X</button></p>
+    <TodoItem
+      v-for="todo in store.todos"
+      :key="todo.id"
+      :todo="todo"
+      @remove="removeTodo"
+    />
   </main>
 </template>
 
-<style scoped>
-.checked {
-  text-decoration:line-through;
-}
-</style>
