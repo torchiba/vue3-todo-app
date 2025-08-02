@@ -8,8 +8,19 @@ export const useFilterStore = defineStore('filter', {
         filterStatus: 'all' as FilterStatus
     }),
     actions: {
+        loadFilter() {
+            const data = localStorage.getItem('filter')
+            if (data) {
+                this.filterStatus = JSON.parse(data)
+            }
+        },
         setFilter(status: FilterStatus) {
             this.filterStatus = status;
+            this.saveToStorage()
+        },
+        saveToStorage() {
+            localStorage.setItem('filter', JSON.stringify(this.filterStatus))
+            console.log(JSON.stringify(this.filterStatus))
         }
     }
 })
