@@ -38,32 +38,35 @@ onMounted(() => {
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <form @submit.prevent="addNewTodo">
-        <input type="text" v-model="newTodo"/>
-        <button>送信</button>
-      </form>
-    </div>
-  </header>
+  <div class="min-h-screen bg-gray-50 p-6 text-gray-800">
+    <header class="max-w-xl mx-auto">
+      <div class="wrapper w-1/2">
+        <form @submit.prevent="addNewTodo" class="flex gap-4">
+          <input type="text" v-model="newTodo" class="flex-1 p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+          <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">送信</button>
+        </form>
+      </div>
+    </header>
 
-  <main>
-    <p>合計：{{todoStore.todos.length}}件 ｜ 未完了: {{ todoStore.remainingCount }}件 filterStore.filterStatus: {{ filterStore.filterStatus }}</p>
-    <div>
-      <button @click="filterStore.setFilter('all')">すべて表示</button>
-      <button @click="filterStore.setFilter('done')">完了</button>
-      <button @click="filterStore.setFilter('undone')">未完了</button>
-      <button @click="clearStorage()">filterStore全部消す</button>
-    </div>
-    <TodoItem
-      v-if="todoStore.todos.length !== 0"
-      v-for="todo in filteredTodos"
-      :key="todo.id"
-      :todo="todo"
-      @remove="removeTodo"
-      @done="doneTodo"
-    />
-    <p v-else>タスクがありません</p>
-  </main>
+    <main class="max-w-xl mx-auto">
+      <p>合計：{{todoStore.todos.length}}件 ｜ 未完了: {{ todoStore.remainingCount }}件 filterStore.filterStatus: {{ filterStore.filterStatus }}</p>
+      <div>
+        <button @click="filterStore.setFilter('all')">すべて表示</button>
+        <button @click="filterStore.setFilter('done')">完了</button>
+        <button @click="filterStore.setFilter('undone')">未完了</button>
+        <button @click="clearStorage()">filterStore全部消す</button>
+      </div>
+      <ul class="space-y-2">
+        <TodoItem
+          v-if="todoStore.todos.length !== 0"
+          v-for="todo in filteredTodos"
+          :key="todo.id"
+          :todo="todo"
+          @remove="removeTodo"
+          @done="doneTodo"
+        />
+        <li v-else>タスクがありません</li>
+      </ul>
+    </main>
+  </div>
 </template>
-
