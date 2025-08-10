@@ -15,9 +15,23 @@ const emit = defineEmits<{
 
 <template>
     <li class="flex items-center gap-2 p-3 bg-white rounded shadow">
-        <input type="checkbox" :id="'todo-' + props.todo.id" name="done" :checked="props.todo.done" @change="emit('done', props.todo.id)"/>
-        <label :for="'todo-' + props.todo.id" :class="{ checked: props.todo.done }">{{ props.todo.text }}</label>
-        <button @click="emit('remove', props.todo.id)">X</button>
+        <label class="flex items-center gap-2 flex-1 cursor-pointer select-none">
+            <input
+            type="checkbox"
+            :checked="props.todo.done"
+            @change="emit('done', props.todo.id)"
+            class="peer w-5 h-5"
+            />
+            <span class="peer-checked:line-through peer-checked:text-gray-400">
+            {{ props.todo.text }}
+            </span>
+        </label>
+        <button
+            @click="emit('remove', props.todo.id)"
+            class="py-1 px-5 bg-gray-500 rounded-2xl text-white ml-auto"
+        >
+            X
+        </button>
     </li>
 </template>
 

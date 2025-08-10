@@ -24,6 +24,12 @@ const doneTodo = (id: number) => {
 const clearStorage = () => {
   localStorage.clear()
 }
+const filters = [
+  {key: 'all', label: 'すべて表示'},
+  {key: 'done', label: '完了'},
+  {key: 'undone', label: '未完了'}
+]
+const isActive = (k:string) => filterStore.filterStatus === k
 
 const filteredTodos = computed(() => {
   if (filterStore.filterStatus === 'all') return todoStore.todos;
@@ -38,9 +44,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 p-6 text-gray-800">
-    <header class="max-w-xl mx-auto">
-      <div class="wrapper w-1/2">
+  <div class="min-h-screen bg-gray-50 p-6 text-gray-800 flex flex-col gap-8 items-stretch">
+    <header class="w-7/12 mx-auto">
+      <div class="wrapper">
         <form @submit.prevent="addNewTodo" class="flex gap-4">
           <input type="text" v-model="newTodo" class="flex-1 p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
           <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">送信</button>
@@ -48,13 +54,21 @@ onMounted(() => {
       </div>
     </header>
 
-    <main class="max-w-xl mx-auto">
-      <p>合計：{{todoStore.todos.length}}件 ｜ 未完了: {{ todoStore.remainingCount }}件 filterStore.filterStatus: {{ filterStore.filterStatus }}</p>
-      <div>
-        <button @click="filterStore.setFilter('all')">すべて表示</button>
-        <button @click="filterStore.setFilter('done')">完了</button>
-        <button @click="filterStore.setFilter('undone')">未完了</button>
-        <button @click="clearStorage()">filterStore全部消す</button>
+    <main class="flex flex-col gap-2 w-7/12 mx-auto">
+      <p>合計：{{todoStore.todos.length}}件 ｜ 未完了: {{ todoStore.remainingCount }}件</p>
+      <div class="flex">
+        <button
+          v-for="f in filters" :key="f.key"
+          @click="filterStore.setFilter(f.key)"
+          class="px-4 py-2 rounded order transition-colors border"
+          :class="isActive(f.key)
+            ? 'bg-blue-500 border-blue-500 text-white'
+            : 'border-neutral-300 bg-transparent transition-colors hover:bg-neutral-200'
+          ">
+            {{ f.label }}
+        </button>
+
+        <button @click="clearStorage()" class="bg-blue-500 text-white px-4 py-2 rounded  hover:bg-blue-600 ml-auto">filterStore全部消す</button>
       </div>
       <ul class="space-y-2">
         <TodoItem
