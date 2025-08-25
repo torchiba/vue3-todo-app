@@ -14,14 +14,19 @@ const emit = defineEmits<{
 </script>
 
 <template>
-    <li class="flex items-center gap-2 p-3 bg-white rounded shadow">
+    <li class="flex gap-x-3 items-center gap-2 p-3 bg-white rounded shadow">
         <label class="flex items-center gap-2 flex-1 cursor-pointer select-none">
             <input
             type="checkbox"
             :checked="props.todo.done"
             @change="emit('done', props.todo.id)"
-            class="peer w-5 h-5"
+            class="peer w-5 h-5 hidden"
             />
+            <span class="size-5 flex justify-center items-center rounded-full border border-gray-400 peer-checked:bg-blue-600 text-white peer-checked:dark:bg-blue-500 peer-checked:border-blue-500">
+                <svg class="shrink-0 size-3.5 peer-checked:block" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </span>
             <span class="peer-checked:line-through peer-checked:text-gray-400">
             {{ props.todo.text }}
             </span>

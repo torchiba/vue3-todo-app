@@ -47,7 +47,7 @@ onMounted(() => {
   <div class="min-h-screen bg-gray-50 p-6 text-gray-800 flex flex-col gap-8 items-stretch">
     <header class="w-7/12 mx-auto">
       <div class="wrapper">
-        <form @submit.prevent="addNewTodo" class="flex gap-4">
+        <form @submit.prevent="addNewTodo" class="gap-4 flex gap-x-3 items-center p-3 bg-white rounded shadow">
           <input type="text" v-model="newTodo" class="flex-1 p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"/>
           <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">送信</button>
         </form>
@@ -56,7 +56,7 @@ onMounted(() => {
 
     <main class="flex flex-col gap-2 w-7/12 mx-auto">
       <p>合計：{{todoStore.todos.length}}件 ｜ 未完了: {{ todoStore.remainingCount }}件</p>
-      <div class="flex">
+      <div class="flex gap-2">
         <button
           v-for="f in filters" :key="f.key"
           @click="filterStore.setFilter(f.key)"
